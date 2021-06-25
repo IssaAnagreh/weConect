@@ -55,7 +55,13 @@ const pancakeFlipper = (fs: number, row: string) => {
  */
 const pancakeTester = (lines: string) => {
   let arr = lines.split('\n');
-  arr.splice(1).forEach((line, index) => {
+
+  if (+arr[0] > 100) {
+    console.log(`Too many test cases`);
+    return;
+  }
+
+  arr.slice(1).forEach((line, index) => {
     let arr = line.split(' ');
     let fs: number = +arr[1];
     let row: string = arr[0];
