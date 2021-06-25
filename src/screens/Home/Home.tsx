@@ -66,13 +66,13 @@ export default function Home() {
           style={[
             styles.itemContainer,
             {
-              marginBottom: index < urls.length - 1 ? 5 : 0.5,
+              marginBottom: index < urls.length - 1 ? 2.5 : 0.5,
             },
           ]}
           activeOpacity={0.75}>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.txt}>{item.title}</Text>
-          <Text style={styles.txt}>{item.url}</Text>
+          <Text style={[styles.txt, {fontStyle: 'italic'}]}>{item.url}</Text>
         </TouchableOpacity>
       );
     },
@@ -125,5 +125,6 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 14,
+    marginVertical: 2,
   },
 });
