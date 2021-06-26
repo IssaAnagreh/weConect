@@ -11,42 +11,48 @@ const isEven = (n: number) => n % 2 === 0;
 const flip = (pancake: string) => (pancake === '+' ? '-' : '+');
 
 /**
+ * Represents counting the blanks.
+ * @param {string} pancake - The pancake.
+ */
+const countBlanks = (arr: any[]) => arr.filter(char => char === '-').length;
+
+/**
+ * Represents last checking if the row still have blanks in the positions (position > row.length - k).
+ * @param {string} pancake - The pancake.
+ */
+const stillHaveBlanks = (arr: any[], k: number) =>
+  arr.slice(-k).filter(char => char === '-').length;
+
+/**
  * Represents pancakeFlipper.
- * @param {number} fs - The flipper size.
+ * @param {number} k - The flipper size.
  * @param {string} row - The pancakes row.
  */
-const pancakeFlipper = (fs: number, row: string) => {
+const pancakeFlipper = (k: number, row: string) => {
   let changes = 0;
   let arr = row.split('');
-  const numberOfBlanks = arr.filter(char => char === '-').length;
+  const numberOfBlanks = countBlanks(arr);
 
-  if (fs === 1) return numberOfBlanks;
+  if (k === 1) return numberOfBlanks;
 
   if (
-    (isEven(fs) && !isEven(numberOfBlanks)) ||
-    (!isEven(fs) && isEven(numberOfBlanks))
+    (isEven(k) && !isEven(numberOfBlanks)) ||
+    (!isEven(k) && isEven(numberOfBlanks))
   )
     return 'IMPOSSIBLE!';
 
   let left = 0;
-  let right = arr.length - fs;
-  while (left <= right) {
+  while (left <= arr.length - k) {
     if (arr[left] !== '+') {
-      for (let i = 0; i < fs; ++i) {
+      for (let i = 0; i < k; ++i) {
         arr.splice(left + i, 1, flip(arr[left + i]));
       }
       ++changes;
     }
-    if (arr[right] !== '+') {
-      for (let i = 0; i < fs; ++i) {
-        arr.splice(right - i, 1, flip(arr[right - i]));
-      }
-      ++changes;
-    }
     ++left;
-    --right;
   }
-  return changes;
+
+  return stillHaveBlanks(arr, k) > 0 ? 'IMPOSSIBLE!' : changes;
 };
 
 /**
@@ -63,10 +69,15 @@ const pancakeTester = (lines: string) => {
 
   arr.slice(1).forEach((line, index) => {
     let arr = line.split(' ');
-    let fs: number = +arr[1];
+    let k: number = +arr[1];
     let row: string = arr[0];
-    console.log(`Case #${index + 1}: ${pancakeFlipper(fs, row)}`);
+    console.log(`Case #${index + 1}: ${pancakeFlipper(k, row)}`);
   });
 };
+
 // Invocation test scenarios.
-pancakeTester('2\n2 --\n 2 ++');
+pancakeTester('2\n-- 2\n++ 2');
+pancakeTester('1\n+-+-+ 4');
+pancakeTester('1\n-+-+- 3');
+pancakeTester('1\n---+-++- 3');
+pancakeTester('1\n+++++-+- 3');
