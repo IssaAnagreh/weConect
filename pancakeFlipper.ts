@@ -76,8 +76,4 @@ const pancakeTester = (lines: string) => {
 };
 
 // Invocation test scenarios.
-pancakeTester('2\n-- 2\n++ 2');
-pancakeTester('1\n+-+-+ 4');
-pancakeTester('1\n-+-+- 3');
-pancakeTester('1\n---+-++- 3');
-pancakeTester('1\n+++++-+- 3');
+pancakeTester('2\n-- 2\n++ 2\n+-+-+ 4\n-+-+- 3\n---+-++- 3\n+++++-+- 3');
